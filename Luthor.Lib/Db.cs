@@ -14,9 +14,99 @@ namespace Luthor.lib
         private static MySqlDataAdapter adapter;
         private static DataTable result;
 
-        public static bool Insert(string tableName, string values)
+        private static void clearResult()
         {
-            return true;
+            result.Rows.Clear();
+            result.Columns.Clear();
+        }
+
+        public static bool Insert(string table, string values)
+        {
+            try
+            {
+                Connection.Open();
+                command = new MySqlCommand($"INSERT INTO {table} VALUES({values})", Connection.DBConnection);
+                Connection.Close();
+                return true;
+            }
+            catch (MySql.Data.MySqlClient.MySqlException err)
+            {
+                Error.error_msg = err.Message;
+                Error.error_code = err.Number;
+                return false;
+            }
+        }
+
+        public static bool Update(string table, string values, string condition)
+        {
+            try
+            {
+                Connection.Open();
+                command = new MySqlCommand($"UPDATE {table} SET {values} WHERE {condition}", Connection.DBConnection);
+                Connection.Close();
+                return true;
+            }
+            catch (MySql.Data.MySqlClient.MySqlException err)
+            {
+                Error.error_msg = err.Message;
+                Error.error_code = err.Number;
+                return false;
+            }
+        }
+
+        public static bool Delete(string table, string condition)
+        {
+            try
+            {
+                Connection.Open();
+                command = new MySqlCommand($"DELETE * FROM {table} WHERE {condition}", Connection.DBConnection);
+                Connection.Close();
+                return true;
+            }
+            catch (MySql.Data.MySqlClient.MySqlException err)
+            {
+                Error.error_msg = err.Message;
+                Error.error_code = err.Number;
+                return false;
+            }
+        }
+
+        public static DataTable Read(string table, string column)
+        {
+            clearResult();
+
+            try
+            {
+                command = new MySqlCommand($"SELECT {column} FROM {table}", Connection.DBConnection);
+                adapter = new MySqlDataAdapter(command);
+                adapter.Fill(result);
+            }
+            catch (MySql.Data.MySqlClient.MySqlException err)
+            {
+                Error.error_msg = err.Message;
+                Error.error_code = err.Number;
+            }
+
+            return result;
+        }
+
+        public static DataTable Read(string table, string column, string condition)
+        {
+            clearResult();
+
+            try
+            {
+                command = new MySqlCommand($"SELECT {column} FROM {table} WHERE {condition}", Connection.DBConnection);
+                adapter = new MySqlDataAdapter(command);
+                adapter.Fill(result);
+            }
+            catch (MySql.Data.MySqlClient.MySqlException err)
+            {
+                Error.error_msg = err.Message;
+                Error.error_code = err.Number;
+            }
+
+            return result;
         }
     }
 }

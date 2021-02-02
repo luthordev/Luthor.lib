@@ -9,7 +9,6 @@ namespace Luthor.lib
     class Auth
     {
         private static MySqlCommand command;
-        private static MySqlDataReader reader;
         private static MySqlDataAdapter adapter;
 
         public static bool Login(string username, string password, string tableName)
