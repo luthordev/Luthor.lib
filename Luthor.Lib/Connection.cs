@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 
 namespace Luthor.lib
 {
-    class Connection
+    public class Connection
     {
         internal static MySqlConnection DBConnection;
         internal static string error_msg;

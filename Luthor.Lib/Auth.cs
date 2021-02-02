@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 
 namespace Luthor.lib
 {
-    class Auth
+    public class Auth
     {
         private static MySqlCommand command;
         private static MySqlDataAdapter adapter;
@@ -20,7 +20,9 @@ namespace Luthor.lib
                 adapter = new MySqlDataAdapter(command);
                 adapter.Fill(Session.userInfo);
                 Connection.Close();
-                return true;
+
+                if (Session.userInfo.Rows.Count > 0) return true;
+                return false;
             } catch(MySql.Data.MySqlClient.MySqlException err)
             {
                 Error.error_msg = err.Message;

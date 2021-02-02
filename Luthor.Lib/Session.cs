@@ -8,7 +8,7 @@ namespace Luthor.lib
 {
     class Session
     {
-        internal static DataTable userInfo;
+        internal static DataTable userInfo = new DataTable();
 
         internal static void clearSession()
         {

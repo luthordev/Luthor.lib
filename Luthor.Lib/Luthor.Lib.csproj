@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Auth.cs" />
     <Compile Include="Connection.cs" />
+    <Compile Include="Convert.cs" />
     <Compile Include="Db.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
