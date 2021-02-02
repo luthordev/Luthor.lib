@@ -12,19 +12,6 @@ namespace Luthor.lib
         private static MySqlDataReader reader;
         private static MySqlDataAdapter adapter;
 
-        public static bool CheckLogin(string username, string password, string tableName)
-        {
-            Connection.Open();
-            command = new MySqlCommand($"SELECT * FROM {tableName} WHERE username='{username}' AND password='{password}'", Connection.DBConnection);
-            reader = command.ExecuteReader();
-            if (reader.Read())
-            {
-                reader.Close();
-                Connection.Close();
-                return true;
-            }
-            else return false; 
-        }
         public static bool Login(string username, string password, string tableName)
         {
             try
@@ -36,6 +23,25 @@ namespace Luthor.lib
                 Connection.Close();
                 return true;
             } catch(MySql.Data.MySqlClient.MySqlException err)
+            {
+                Error.error_msg = err.Message;
+                Error.error_code = err.Number;
+                return false;
+            }
+        }
+
+        public static bool Login(string query)
+        {
+            try
+            {
+                Connection.Open();
+                command = new MySqlCommand(query, Connection.DBConnection);
+                adapter = new MySqlDataAdapter(command);
+                adapter.Fill(Session.userInfo);
+                Connection.Close();
+                return true;
+            }
+            catch (MySql.Data.MySqlClient.MySqlException err)
             {
                 Error.error_msg = err.Message;
                 Error.error_code = err.Number;
