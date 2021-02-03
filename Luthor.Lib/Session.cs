@@ -6,7 +6,7 @@ using System.Data;
 
 namespace Luthor.lib
 {
-    class Session
+    public class Session
     {
         internal static DataTable userInfo = new DataTable();
 
