@@ -11,6 +11,9 @@ namespace Luthor.lib
         private static MySqlCommand command;
         private static MySqlDataAdapter adapter;
 
+        // username = abc, password = ccc
+        // username = bbc, password = aaa
+
         public static bool Login(string username, string password, string tableName)
         {
             try
@@ -40,7 +43,8 @@ namespace Luthor.lib
                 adapter = new MySqlDataAdapter(command);
                 adapter.Fill(Session.userInfo);
                 Connection.Close();
-                return true;
+                if (Session.userInfo.Rows.Count > 0) return true;
+                return false;
             }
             catch (MySql.Data.MySqlClient.MySqlException err)
             {
