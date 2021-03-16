@@ -13,6 +13,24 @@ namespace Luthor.lib
         private static MySqlDataReader reader;
         private static MySqlDataAdapter adapter;
 
+        public static bool ExecuteQuery(string query)
+        {
+            try
+            {
+                Connection.Open();
+                command = new MySqlCommand(query, Connection.DBConnection);
+                command.ExecuteNonQuery();
+                Connection.Close();
+                return true;
+            }
+            catch (MySql.Data.MySqlClient.MySqlException err)
+            {
+                Error.error_msg = err.Message;
+                Error.error_code = err.Number;
+                return false;
+            }
+        }
+
         public static bool Insert(string table, string values)
         {
             try
@@ -65,6 +83,8 @@ namespace Luthor.lib
                 Error.error_code = err.Number;
                 return false;
             }
+
+            Db.Read("tabel", "*");
         }
 
         public static DataTable Read(string table, string column)
