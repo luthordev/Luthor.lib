@@ -83,8 +83,6 @@ namespace Luthor.lib
                 Error.error_code = err.Number;
                 return false;
             }
-
-            Db.Read("tabel", "*");
         }
 
         public static DataTable Read(string table, string column)
